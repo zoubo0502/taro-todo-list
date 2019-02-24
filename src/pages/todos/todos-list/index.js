@@ -1,12 +1,18 @@
 import Taro from '@tarojs/taro';
 import { View, Text, Button } from '@tarojs/components';
-import { AtList, AtListItem } from 'taro-ui';
 import './index.scss';
 import finish from '../assets/finish.svg';
 import notfinish from '../assets/not-finish.svg';
-import { AtSwipeAction } from 'taro-ui';
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
-import { AtInput, AtForm } from 'taro-ui';
+import {
+  AtModal,
+  AtModalHeader,
+  AtModalContent,
+  AtModalAction,
+  AtSwipeAction,
+  AtInput,
+  AtList,
+  AtListItem
+} from 'taro-ui';
 import add from '../assets/add.svg';
 
 export default class TodosList extends Taro.Component {

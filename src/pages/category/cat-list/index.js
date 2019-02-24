@@ -2,38 +2,44 @@ import Taro from '@tarojs/taro';
 import { View, Text, Button } from '@tarojs/components';
 import catalog from '../assets/salescatalog.svg';
 import add from '../assets/add.svg';
-import { AtList, AtListItem } from 'taro-ui';
-import { AtSwipeAction } from 'taro-ui';
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
-import { AtInput } from 'taro-ui';
+import {
+  AtModal,
+  AtModalHeader,
+  AtModalContent,
+  AtModalAction,
+  AtInput,
+  AtSwipeAction,
+  AtList,
+  AtListItem
+} from 'taro-ui';
 import './index.scss';
 
 export default class CatList extends Taro.Component {
-  constructor () {
-    super(...arguments)
+  constructor() {
+    super(...arguments);
     this.state = {
       newCatName: '',
       isModalOpened: false
-    }
+    };
   }
 
-  handleCatNameChange (newCatName) {
+  handleCatNameChange(newCatName) {
     this.setState({
       newCatName
-    })
+    });
   }
 
   closeAddModal = () => {
     this.setState({
       isModalOpened: false
-    })
-  }
+    });
+  };
 
-  showAddCatModal = () =>{
+  showAddCatModal = () => {
     this.setState({
       isModalOpened: true
-    })
-  }
+    });
+  };
 
   toDeleteCategory = id => {
     this.props.deleteCategory(id);
@@ -45,15 +51,15 @@ export default class CatList extends Taro.Component {
     this.setState({
       newCatName: '',
       isModalOpened: false
-    })
-    this.toSeeTodos(this.props.category[this.props.category.length-1].id)
+    });
+    this.toSeeTodos(this.props.category[this.props.category.length - 1].id);
   };
 
-  toSeeTodos = (id) => {
+  toSeeTodos = id => {
     Taro.navigateTo({
       url: `/pages/todos/todos?catId=${id}`
-    })
-  }
+    });
+  };
 
   render() {
     const { category, todos } = this.props;
@@ -100,7 +106,7 @@ export default class CatList extends Taro.Component {
                   note={note}
                   arrow="right"
                   thumb={catalog}
-                  onClick={this.toSeeTodos.bind(this,cat.id)}
+                  onClick={this.toSeeTodos.bind(this, cat.id)}
                 />
               </AtSwipeAction>
             );

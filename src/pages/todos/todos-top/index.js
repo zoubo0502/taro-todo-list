@@ -4,8 +4,13 @@ import top from '../assets/todo-top.jpg';
 import edit from '../assets/edit.svg';
 import './index.scss';
 import del from '../assets/delete.svg';
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from 'taro-ui';
-import { AtInput, AtForm } from 'taro-ui';
+import {
+  AtModal,
+  AtModalHeader,
+  AtModalContent,
+  AtModalAction,
+  AtInput
+} from 'taro-ui';
 
 export default class TodosTop extends Taro.Component {
   constructor() {
@@ -17,11 +22,11 @@ export default class TodosTop extends Taro.Component {
     };
   }
 
-  componentWillReceiveProps () {
+  componentWillReceiveProps() {
     if (!this.state.catName) {
       this.setState({
         catName: this.props.catName
-      })
+      });
     }
   }
 
@@ -29,7 +34,7 @@ export default class TodosTop extends Taro.Component {
     this.props.modifyCategory(id, this.state.catName);
     this.setState({
       isEditCatModelOpened: false
-    })
+    });
   };
   toDeleteCategory = id => {
     this.props.deleteCategory(id);
@@ -52,21 +57,21 @@ export default class TodosTop extends Taro.Component {
 
   toCloseDeleteModel = () => {
     this.setState({
-      isDeleteCatModelOpened: false,
+      isDeleteCatModelOpened: false
     });
   };
 
-  handleCatNameChange = (catName) => {
+  handleCatNameChange = catName => {
     this.setState({
       catName
-    })
-  }
+    });
+  };
 
   toCloseEditModel = () => {
     this.setState({
-      isEditCatModelOpened: false,
+      isEditCatModelOpened: false
     });
-  }
+  };
 
   render() {
     const { catName, catId } = this.props;
@@ -103,14 +108,14 @@ export default class TodosTop extends Taro.Component {
         <AtModal isOpened={this.state.isEditCatModelOpened}>
           <AtModalHeader>修改目录{catName}</AtModalHeader>
           <AtModalContent>
-          <AtInput
-            name="value"
-            title="目录名称："
-            type="text"
-            placeholder="请输入新的目录名"
-            value={this.state.catName}
-            onChange={this.handleCatNameChange.bind(this)}
-          />
+            <AtInput
+              name="value"
+              title="目录名称："
+              type="text"
+              placeholder="请输入新的目录名"
+              value={this.state.catName}
+              onChange={this.handleCatNameChange.bind(this)}
+            />
           </AtModalContent>
           <AtModalAction>
             <Button onClick={this.toCloseEditModel.bind(this)}>取消</Button>
