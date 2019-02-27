@@ -45,7 +45,7 @@ export default class Todos extends Taro.Component {
   }
 
   goToCategory() {
-    Taro.navigateTo({
+    Taro.redirectTo({
       url: '/pages/category/category'
     });
   }
@@ -62,13 +62,18 @@ export default class Todos extends Taro.Component {
       deleteTodos,
       changeTodoStatus
     } = this.props;
-    if (!category.length || !this.state.catId) {
-      this.goToCategory();
+    if (!category.length || !this.state.catId || !category.find(
+      cat => cat.id == this.state.catId
+    )) {
+      return this.goToCategory();
     }
+    console.log(category.find(
+      cat => cat.id == this.state.catId
+    ))
     const { name: catName, id: catId } = category.find(
       cat => cat.id == this.state.catId
     );
-    const showTodos = [...todos].filter(todo => todo.catId === catId)
+    const showTodos = [...todos].filter(todo => todo.catId == catId)
     return (
       <View>
         <TodosTop
@@ -77,7 +82,6 @@ export default class Todos extends Taro.Component {
           modifyCategory={modifyCategory}
           deleteCategory={deleteCategory}
           deleteTodos={deleteTodos}
-          goToCategory={this.goToCategory.bind(this)}
         />
         <TodosList catId={catId}
            todos={showTodos}

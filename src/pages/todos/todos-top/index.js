@@ -18,28 +18,20 @@ export default class TodosTop extends Taro.Component {
     this.state = {
       isDeleteCatModelOpened: false,
       isEditCatModelOpened: false,
-      catName: ''
+      categoryName: this.props.catName
     };
   }
 
-  componentWillReceiveProps() {
-    if (!this.state.catName) {
-      this.setState({
-        catName: this.props.catName
-      });
-    }
-  }
-
   toEditCategory = id => {
-    this.props.modifyCategory(id, this.state.catName);
+    this.props.modifyCategory(id, this.state.categoryName);
     this.setState({
       isEditCatModelOpened: false
     });
   };
+
   toDeleteCategory = id => {
     this.props.deleteCategory(id);
     this.props.deleteTodos(id);
-    this.props.goToCategory();
   };
 
   toOpenDeleteModel = () => {
@@ -80,7 +72,7 @@ export default class TodosTop extends Taro.Component {
         <Image className="img" src={top} />
         <View className="catalog">
           <View className="name" onClick={this.toOpenEditModel.bind(this)}>
-            <Text className="text">{this.state.catName}</Text>
+            <Text className="text">{catName}</Text>
             <Image className="edit-icon" src={edit} />
           </View>
           <Image
@@ -106,14 +98,14 @@ export default class TodosTop extends Taro.Component {
 
         {/* edit category modal */}
         <AtModal isOpened={this.state.isEditCatModelOpened}>
-          <AtModalHeader>修改目录{catName}</AtModalHeader>
+          <AtModalHeader>修改目录{this.state.categoryName}</AtModalHeader>
           <AtModalContent>
             <AtInput
               name="value"
               title="目录名称："
               type="text"
               placeholder="请输入新的目录名"
-              value={this.state.catName}
+              value={this.state.categoryName}
               onChange={this.handleCatNameChange.bind(this)}
             />
           </AtModalContent>

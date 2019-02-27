@@ -16,6 +16,11 @@ import {
 import add from '../assets/add.svg';
 
 export default class TodosList extends Taro.Component {
+
+  static defaultProps = {
+    todos : []
+  }
+
   constructor() {
     super(...arguments);
     this.state = {
@@ -71,8 +76,10 @@ export default class TodosList extends Taro.Component {
   };
 
   toChangeTodoStatus = id => {
-    console.log(this.props.changeTodoStatus);
     this.props.changeTodoStatus(id);
+    Taro.redirectTo({
+      url: `/pages/todos/todos?catId=${this.props.catId}`
+    })
   };
 
   showAddTodoModal = () => {
@@ -83,10 +90,9 @@ export default class TodosList extends Taro.Component {
   };
 
   render() {
-    const { catId, todos, addTodo, deleteTodo, modifyTodo } = this.props;
+    const { todos } = this.props;
     return (
       <View>
-        <Text> Todos-list </Text>
         <AtList>
           {todos.map(todo => {
             return (

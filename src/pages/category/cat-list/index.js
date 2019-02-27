@@ -15,6 +15,10 @@ import {
 import './index.scss';
 
 export default class CatList extends Taro.Component {
+  static defaultProps = {
+    category: [],
+    todos: []
+  }
   constructor() {
     super(...arguments);
     this.state = {
@@ -56,7 +60,7 @@ export default class CatList extends Taro.Component {
   };
 
   toSeeTodos = id => {
-    Taro.navigateTo({
+    Taro.redirectTo({
       url: `/pages/todos/todos?catId=${id}`
     });
   };

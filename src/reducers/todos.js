@@ -6,17 +6,19 @@ import {
   DELETE_TODOS
 } from '../constants/todos';
 
-const initState = [
-  { id: 1, name: 'todo1', catId: 1, status: false },
-  { id: 2, name: 'todo2', catId: 1, status: true },
-  { id: 3, name: 'todo3', catId: 2, status: false },
-  { id: 4, name: 'todo4', catId: 2, status: true },
-  { id: 5, name: 'todo5', catId: 2, status: false },
-  { id: 6, name: 'todo6', catId: 3, status: false },
-  { id: 7, name: 'todo7', catId: 3, status: true },
-  { id: 8, name: 'todo8', catId: 3, status: true },
-  { id: 9, name: 'todo9', catId: 3, status: true }
-];
+// const initState = [
+//   { id: 1, name: 'todo1', catId: 1, status: false },
+//   { id: 2, name: 'todo2', catId: 1, status: true },
+//   { id: 3, name: 'todo3', catId: 2, status: false },
+//   { id: 4, name: 'todo4', catId: 2, status: true },
+//   { id: 5, name: 'todo5', catId: 2, status: false },
+//   { id: 6, name: 'todo6', catId: 3, status: false },
+//   { id: 7, name: 'todo7', catId: 3, status: true },
+//   { id: 8, name: 'todo8', catId: 3, status: true },
+//   { id: 9, name: 'todo9', catId: 3, status: true }
+// ];
+
+const initState = [];
 let id = 1;
 
 export default function todos(state = initState, action) {

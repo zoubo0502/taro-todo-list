@@ -4,11 +4,13 @@ import {
   MODIFY_CATEGORY
 } from '../constants/category';
 
-const initState = [
-  { id: 1, name: 'test1' },
-  { id: 2, name: 'test2' },
-  { id: 3, name: 'test3' }
-];
+// const initState = [
+//   { id: 1, name: 'test1' },
+//   { id: 2, name: 'test2' },
+//   { id: 3, name: 'test3' }
+// ];
+
+const initState = [];
 let id = 1;
 
 export default function category(state = initState, action) {
