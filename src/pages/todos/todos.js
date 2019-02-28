@@ -28,6 +28,7 @@ export default class Todos extends Taro.Component {
   config = {
     navigationBarTitleText: '清单列表'
   };
+
   constructor() {
     super(...arguments);
     this.state = {
@@ -35,8 +36,33 @@ export default class Todos extends Taro.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    Taro.setStorage({
+      key: 'categoryState',
+      date: this.props.category
+    });
+
+    Taro.setStorage({
+      key: 'todosState',
+      date: this.props.todos
+    });
+
+  }
+
   componentWillMount() {
-    const catId = this.$router.params['catId'];
+    let catId = this.$router.params['catId'];
+    if (!catId) {
+      catId = Taro.getStorage({
+        key: 'lastOpenCate',
+        success: function(res) {
+          catId = res.data;
+        },
+        fail: function(err){
+          console.log(err)
+        }
+      });
+      console.log(catId);
+    }
     if (catId) {
       this.setState({
         catId
@@ -62,18 +88,17 @@ export default class Todos extends Taro.Component {
       deleteTodos,
       changeTodoStatus
     } = this.props;
-    if (!category.length || !this.state.catId || !category.find(
-      cat => cat.id == this.state.catId
-    )) {
+    if (
+      !category.length ||
+      !this.state.catId ||
+      !category.find(cat => cat.id == this.state.catId)
+    ) {
       return this.goToCategory();
     }
-    console.log(category.find(
-      cat => cat.id == this.state.catId
-    ))
     const { name: catName, id: catId } = category.find(
       cat => cat.id == this.state.catId
     );
-    const showTodos = [...todos].filter(todo => todo.catId == catId)
+    const showTodos = [...todos].filter(todo => todo.catId == catId);
     return (
       <View>
         <TodosTop
@@ -83,14 +108,17 @@ export default class Todos extends Taro.Component {
           deleteCategory={deleteCategory}
           deleteTodos={deleteTodos}
         />
-        <TodosList catId={catId}
-           todos={showTodos}
-           addTodo={addTodo}
-           deleteTodo={deleteTodo}
-           modifyTodo={modifyTodo}
-           changeTodoStatus={changeTodoStatus}
+        <TodosList
+          catId={catId}
+          todos={showTodos}
+          addTodo={addTodo}
+          deleteTodo={deleteTodo}
+          modifyTodo={modifyTodo}
+          changeTodoStatus={changeTodoStatus}
         />
-        <Button onClick={this.goToCategory}>查看目录</Button>
+        <Button className="check-category" onClick={this.goToCategory}>
+          查看目录
+        </Button>
       </View>
     );
   }

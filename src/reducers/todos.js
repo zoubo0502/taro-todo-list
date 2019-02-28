@@ -17,10 +17,8 @@ import {
 //   { id: 8, name: 'todo8', catId: 3, status: true },
 //   { id: 9, name: 'todo9', catId: 3, status: true }
 // ];
-
 const initState = [];
 let id = 1;
-
 export default function todos(state = initState, action) {
   switch (action.type) {
     case ADD_TODO:

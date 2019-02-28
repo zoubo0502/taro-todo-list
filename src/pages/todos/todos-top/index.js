@@ -84,9 +84,9 @@ export default class TodosTop extends Taro.Component {
 
         {/* delete category modal */}
         <AtModal isOpened={this.state.isDeleteCatModelOpened}>
-          <AtModalHeader>确认删除目录{this.state.catName}?</AtModalHeader>
+          <AtModalHeader>确认删除目录?</AtModalHeader>
           <AtModalContent>
-            删除目录则该目录下所有todo事项将被删除！
+            删除"{this.state.catName}"目录则该目录下所有todo事项将被删除！
           </AtModalContent>
           <AtModalAction>
             <Button onClick={this.toCloseDeleteModel.bind(this)}>取消</Button>
@@ -98,13 +98,12 @@ export default class TodosTop extends Taro.Component {
 
         {/* edit category modal */}
         <AtModal isOpened={this.state.isEditCatModelOpened}>
-          <AtModalHeader>修改目录{this.state.categoryName}</AtModalHeader>
+          <AtModalHeader>修改目录名</AtModalHeader>
           <AtModalContent>
             <AtInput
               name="value"
               title="目录名称："
               type="text"
-              placeholder="请输入新的目录名"
               value={this.state.categoryName}
               onChange={this.handleCatNameChange.bind(this)}
             />

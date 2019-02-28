@@ -16,8 +16,20 @@ import CatList from './cat-list';
   { addCategory, deleteCategory, modifyCategory, deleteTodos }
 )
 export default class Category extends Taro.Component {
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps);
+  config = {
+    navigationBarTitleText: '清单目录'
+  };
+  componentWillReceiveProps() {
+    Taro.setStorage({
+      key: 'categoryState',
+      date: this.props.category
+    });
+
+    Taro.setStorage({
+      key: 'todosState',
+      date: this.props.todos
+    });
+
   }
   render() {
     const { category, todos, deleteCategory, addCategory,  deleteTodos} = this.props;

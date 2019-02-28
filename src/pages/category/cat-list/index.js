@@ -51,15 +51,21 @@ export default class CatList extends Taro.Component {
   };
 
   toAddCategory = () => {
-    this.props.addCategory(this.state.newCatName);
+    if (this.state.newCatName) {
+      this.props.addCategory(this.state.newCatName);
+      this.toSeeTodos(this.props.category[this.props.category.length - 1].id);
+    }
     this.setState({
       newCatName: '',
       isModalOpened: false
     });
-    this.toSeeTodos(this.props.category[this.props.category.length - 1].id);
   };
 
   toSeeTodos = id => {
+    Taro.setStorage({
+      key: 'lastOpenCate',
+      date: id
+    })
     Taro.redirectTo({
       url: `/pages/todos/todos?catId=${id}`
     });
@@ -72,7 +78,7 @@ export default class CatList extends Taro.Component {
         let notFinish = 0;
         let finished = 0;
         todos.forEach(todo => {
-          if (todo.catId === cat.id) {
+          if (todo.catId == cat.id) {
             if (todo.status) {
               finished++;
             } else {
@@ -89,10 +95,11 @@ export default class CatList extends Taro.Component {
         <AtList>
           {category.map(cat => {
             let note = cat.notFinish
-              ? `已完成${cat.finished},未完成${cat.notFinish} ！`
+              ? `已完成${cat.finished},未完成${cat.notFinish}！`
               : '恭喜，已全部完成。';
             return (
               <AtSwipeAction
+                key={cat.id}
                 autoClose
                 onClick={this.toDeleteCategory.bind(this, cat.id)}
                 options={[
@@ -108,6 +115,7 @@ export default class CatList extends Taro.Component {
                   key={cat.id}
                   title={cat.name}
                   note={note}
+                  extraText="左滑编辑"
                   arrow="right"
                   thumb={catalog}
                   onClick={this.toSeeTodos.bind(this, cat.id)}
@@ -118,8 +126,9 @@ export default class CatList extends Taro.Component {
         </AtList>
         <View className="add-list">
           <AtList>
-            <AtListItem />
+            <AtListItem key="blank"/>
             <AtListItem
+              key="add-cat"
               title="添加新目录"
               thumb={add}
               onClick={this.showAddCatModal.bind(this)}

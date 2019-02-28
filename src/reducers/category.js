@@ -3,16 +3,14 @@ import {
   DELETE_CATEGORY,
   MODIFY_CATEGORY
 } from '../constants/category';
-
 // const initState = [
 //   { id: 1, name: 'test1' },
 //   { id: 2, name: 'test2' },
 //   { id: 3, name: 'test3' }
 // ];
 
-const initState = [];
+let initState = [];
 let id = 1;
-
 export default function category(state = initState, action) {
   switch (action.type) {
     case ADD_CATEGORY:

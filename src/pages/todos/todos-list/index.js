@@ -40,8 +40,6 @@ export default class TodosList extends Taro.Component {
       });
     }
     if (event.text == '删除') {
-      console.log(id);
-      console.log(this.props.deleteTodo);
       this.props.deleteTodo(id);
     }
   };
@@ -56,11 +54,14 @@ export default class TodosList extends Taro.Component {
   };
 
   toOperateTodo = () => {
-    if (this.state.editId == -1) {
-      this.props.addTodo(this.state.todoName, this.props.catId);
-    } else {
-      this.props.modifyTodo(this.state.editId, this.state.todoName);
+    if (this.state.todoName) {
+      if (this.state.editId == -1) {
+        this.props.addTodo(this.state.todoName, this.props.catId);
+      } else {
+        this.props.modifyTodo(this.state.editId, this.state.todoName);
+      }
     }
+
     this.setState({
       editId: -1,
       idEditTodoModalOpened: false,
