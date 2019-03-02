@@ -33,27 +33,35 @@ export default function todos(state = Taro.getStorageSync('todosState') || initS
         catId: action.catId,
         status: false
       };
-      return [...state, todo];
+      let addState = [...state, todo];
+      Taro.setStorageSync('todosState', addState);
+      return addState;
     case DELETE_TODO:
-      return [...state].filter(todo => todo.id != action.id);
+      let deleteState = [...state].filter(todo => todo.id != action.id);
+      Taro.setStorageSync('todosState', deleteState);
+      return deleteState;
     case DELETE_TODOS:
-      return [...state].filter(todo => todo.catId != action.id);
+      let deletesState = [...state].filter(todo => todo.catId != action.id);
+      Taro.setStorageSync('todosState', deletesState);
+      return deletesState;
     case MODIFY_TODO_NAME:
-      let newTodos = [...state];
-      newTodos.forEach(todo => {
+      let modifyNameState = [...state];
+      modifyNameState.forEach(todo => {
         if (todo.id === action.id) {
           todo.name = action.name;
         }
       });
-      return newTodos;
+      Taro.setStorageSync('todosState', modifyNameState);
+      return modifyNameState;
     case CHANGE_TODO_STATUS:
-      let newTodoss = [...state];
-      newTodoss.forEach(todo => {
+      let changeNameState = [...state];
+      changeNameState.forEach(todo => {
         if (todo.id === action.id) {
           todo.status = !todo.status;
         }
       });
-      return newTodoss;
+      Taro.setStorageSync('todosState', changeNameState);
+      return changeNameState;
     default:
       return state;
   }

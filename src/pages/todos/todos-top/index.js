@@ -27,6 +27,7 @@ export default class TodosTop extends Taro.Component {
     this.setState({
       isEditCatModelOpened: false
     });
+
   };
 
   toDeleteCategory = id => {
@@ -43,7 +44,7 @@ export default class TodosTop extends Taro.Component {
   toOpenEditModel = () => {
     this.setState({
       isEditCatModelOpened: true,
-      catName: this.props.catName
+      categoryName: this.props.catName
     });
   };
 
@@ -53,9 +54,9 @@ export default class TodosTop extends Taro.Component {
     });
   };
 
-  handleCatNameChange = catName => {
+  handleCatNameChange = categoryName => {
     this.setState({
-      catName
+      categoryName
     });
   };
 
@@ -67,13 +68,13 @@ export default class TodosTop extends Taro.Component {
 
 
   render() {
-    const { catName, catId } = this.props;
+    const { catId } = this.props;
     return (
       <View className="todos-top">
         <Image className="img" src={top} />
         <View className="catalog">
           <View className="name" onClick={this.toOpenEditModel.bind(this)}>
-            <Text className="text">{catName}</Text>
+            <Text className="text">{this.state.categoryName}</Text>
             <Image className="edit-icon" src={edit} />
           </View>
           <Image

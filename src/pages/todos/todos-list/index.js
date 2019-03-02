@@ -11,16 +11,17 @@ import {
   AtSwipeAction,
   AtInput,
   AtList,
-  AtListItem
+  AtListItem,
+  AtToast
 } from 'taro-ui';
 import add from '../assets/add.svg';
+import smile from '../assets/smile.svg';
 import back_to_cat from '../assets/return.svg';
 
 export default class TodosList extends Taro.Component {
-
   static defaultProps = {
-    todos : []
-  }
+    todos: []
+  };
 
   constructor() {
     super(...arguments);
@@ -28,7 +29,8 @@ export default class TodosList extends Taro.Component {
       editId: -1,
       idEditTodoModalOpened: false,
       todoName: '',
-      modalTitle: ''
+      modalTitle: '',
+      isToastFirstTime: true
     };
   }
 
@@ -81,7 +83,7 @@ export default class TodosList extends Taro.Component {
     this.props.changeTodoStatus(id);
     Taro.redirectTo({
       url: `/pages/todos/todos?catId=${this.props.catId}`
-    })
+    });
   };
 
   showAddTodoModal = () => {
@@ -94,6 +96,12 @@ export default class TodosList extends Taro.Component {
   goToCategory() {
     Taro.redirectTo({
       url: '/pages/category/category'
+    });
+  }
+
+  handleToast() {
+    this.setState({
+      isToastFirstTime: false
     });
   }
 
@@ -137,7 +145,7 @@ export default class TodosList extends Taro.Component {
 
           <View className="add-list">
             <AtList>
-              <AtListItem key="blank"/>
+              <AtListItem key="blank" />
               <AtListItem
                 key="add-todo"
                 title="添加新Todo"
@@ -145,7 +153,7 @@ export default class TodosList extends Taro.Component {
                 onClick={this.showAddTodoModal.bind(this)}
               />
             </AtList>
-            <AtListItem 
+            <AtListItem
               key="blank"
               title="返回查看目录"
               thumb={back_to_cat}
@@ -153,6 +161,15 @@ export default class TodosList extends Taro.Component {
             />
           </View>
         </AtList>
+
+        {/* Toast */}
+        <AtToast
+          isOpened={!todos.length && this.state.isToastFirstTime}
+          text={'开始添加Todo来跟踪状态吧！'}
+          image={smile}
+          duration={2000}
+          onClose={this.handleToast.bind(this)}
+        />
         {/* edit todo modal */}
         <AtModal isOpened={this.state.idEditTodoModalOpened}>
           <AtModalHeader>{this.state.modalTitle}</AtModalHeader>

@@ -1,6 +1,6 @@
 import './category.scss';
 import Taro from '@tarojs/taro';
-import { View, Text, AtNoticebar } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import {
   addCategory,
@@ -10,6 +10,7 @@ import {
 import { deleteTodos } from '../../actions/todos';
 import CatTop from './cat-top';
 import CatList from './cat-list';
+import { AtNoticebar } from 'taro-ui';
 
 @connect(
   ({ category, todos }) => ({ category, todos }),
@@ -19,12 +20,6 @@ export default class Category extends Taro.Component {
   config = {
     navigationBarTitleText: '清单目录'
   };
-  componentDidMount() {
-    console.log('cate--setState');
-    Taro.setStorageSync('categoryState', this.props.category);
-
-    Taro.setStorageSync('todosState', this.props.todos);
-  }
   render() {
     const {
       category,
@@ -37,6 +32,9 @@ export default class Category extends Taro.Component {
     return (
       <View className="category">
         <CatTop catTotal={category.length} />
+        {Taro.getStorageSync('cateToast') && <AtNoticebar close>
+          数据保存在小程序本地缓存中，为保证待办事项数据不丢失，请勿在微信中移除本小程序。
+        </AtNoticebar>}
         <CatList
           category={category}
           todos={todos}

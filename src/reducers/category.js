@@ -15,26 +15,32 @@ let initState = [
   { id: 201, name: '2.试着左滑' }
 ];
 let id = 1;
-export default function category(state = Taro.getStorageSync('categoryState') || initState, action) {
-  console.log(state)
-  console.log('cat reducer')
+export default function category(
+  state = Taro.getStorageSync('categoryState') || initState,
+  action
+) {
   switch (action.type) {
     case ADD_CATEGORY:
       const category = {
         id: id++,
         name: action.name
       };
-      return [...state, category];
+      let addState = [...state, category];
+      Taro.setStorageSync('categoryState', addState);
+      return addState;
     case DELETE_CATEGORY:
-      return [...state].filter(cat => cat.id != action.id);
+      let deleteState = [...state].filter(cat => cat.id != action.id);
+      Taro.setStorageSync('categoryState', deleteState);
+      return deleteState;
     case MODIFY_CATEGORY:
-      let newState = [...state];
-      newState.forEach(cat => {
-        if (cat.id === action.id) {
+      let modifyState = [...state];
+      modifyState.forEach(cat => {
+        if (cat.id == action.id) {
           cat.name = action.name;
         }
       });
-      return newState;
+      Taro.setStorageSync('categoryState', modifyState);
+      return modifyState;
     default:
       return state;
   }

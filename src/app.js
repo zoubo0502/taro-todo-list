@@ -16,6 +16,7 @@ const store = configStore();
 class App extends Component {
   constructor(){
     super(...arguments);
+    Taro.setStorageSync('cateToast',true);
   }
   config = {
     pages: ['pages/todos/todos', 'pages/category/category'],

@@ -33,33 +33,26 @@ export default class Todos extends Taro.Component {
   constructor() {
     super(...arguments);
     this.state = {
-      catId: 0
+      catId: this.initCatId()
     };
   }
 
-  componentDidMount() {
-    console.log('todos--settState');
-    Taro.setStorageSync('categoryState',this.props.category);
-
-    Taro.setStorageSync('todosState', this.props.todos);
-  }
-
-  componentWillMount() {
+  initCatId() {
     let catId = this.$router.params['catId'];
     if (!catId) {
       catId = Taro.getStorageSync('lastOpenCate');
     }
-    if (catId) {
-      this.setState({
-        catId
-      });
-    }
+    return catId
   }
 
   goToCategory() {
     Taro.redirectTo({
       url: '/pages/category/category'
     });
+  }
+
+  componentDidMount(){
+    Taro.setStorageSync('cateToast',false);
   }
 
   render() {
