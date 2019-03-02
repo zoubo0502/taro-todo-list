@@ -14,6 +14,7 @@ import {
   AtListItem
 } from 'taro-ui';
 import add from '../assets/add.svg';
+import back_to_cat from '../assets/return.svg';
 
 export default class TodosList extends Taro.Component {
 
@@ -90,6 +91,12 @@ export default class TodosList extends Taro.Component {
     });
   };
 
+  goToCategory() {
+    Taro.redirectTo({
+      url: '/pages/category/category'
+    });
+  }
+
   render() {
     const { todos } = this.props;
     return (
@@ -130,13 +137,20 @@ export default class TodosList extends Taro.Component {
 
           <View className="add-list">
             <AtList>
-              <AtListItem />
+              <AtListItem key="blank"/>
               <AtListItem
+                key="add-todo"
                 title="添加新Todo"
                 thumb={add}
                 onClick={this.showAddTodoModal.bind(this)}
               />
             </AtList>
+            <AtListItem 
+              key="blank"
+              title="返回查看目录"
+              thumb={back_to_cat}
+              onClick={this.goToCategory.bind(this)}
+            />
           </View>
         </AtList>
         {/* edit todo modal */}

@@ -18,18 +18,19 @@ export default class CatList extends Taro.Component {
   static defaultProps = {
     category: [],
     todos: []
-  }
+  };
   constructor() {
     super(...arguments);
     this.state = {
-      newCatName: '',
+      editCateId: 0,
+      editCatName: '',
       isModalOpened: false
     };
   }
 
-  handleCatNameChange(newCatName) {
+  handleCatNameChange(editCatName) {
     this.setState({
-      newCatName
+      editCatName
     });
   }
 
@@ -39,33 +40,51 @@ export default class CatList extends Taro.Component {
     });
   };
 
-  showAddCatModal = () => {
+  showCatModalToAdd = () => {
     this.setState({
-      isModalOpened: true
+      isModalOpened: true,
+      modalTitle: '添加新目录'
     });
   };
 
-  toDeleteCategory = id => {
-    this.props.deleteCategory(id);
-    this.props.deleteTodos(id);
+  toOperateCategory = (id, event) => {
+    if (event.text == '编辑') {
+      this.setState({
+        editCateId: id,
+        isModalOpened: true,
+        modalTitle: '编辑目录名'
+      });
+    }
+    if (event.text == '删除') {
+      this.props.deleteCategory(id);
+      this.props.deleteTodos(id);
+    }
   };
 
-  toAddCategory = () => {
-    if (this.state.newCatName) {
-      this.props.addCategory(this.state.newCatName);
-      this.toSeeTodos(this.props.category[this.props.category.length - 1].id);
+  toSaveCategory = () => {
+    if (this.state.editCatName) {
+      if (this.state.editCateId) {
+        this.props.modifyCategory(this.state.editCateId, this.state.editCatName);
+        Taro.redirectTo({
+          url: '/pages/category/category'
+        });
+      } else {
+        this.props.addCategory(this.state.editCatName);
+        this.toSeeTodos(this.props.category[this.props.category.length - 1].id);
+      }
     }
     this.setState({
-      newCatName: '',
-      isModalOpened: false
+      isModalOpened: false,
+      editCateId: 0,
+      editCatName: ''
     });
   };
 
   toSeeTodos = id => {
     Taro.setStorage({
       key: 'lastOpenCate',
-      date: id
-    })
+      data: id
+    });
     Taro.redirectTo({
       url: `/pages/todos/todos?catId=${id}`
     });
@@ -96,13 +115,21 @@ export default class CatList extends Taro.Component {
           {category.map(cat => {
             let note = cat.notFinish
               ? `已完成${cat.finished},未完成${cat.notFinish}！`
-              : '恭喜，已全部完成。';
+              : cat.finished
+              ? '恭喜，已全部完成。'
+              : '点击添加Todos';
             return (
               <AtSwipeAction
                 key={cat.id}
                 autoClose
-                onClick={this.toDeleteCategory.bind(this, cat.id)}
+                onClick={this.toOperateCategory.bind(this, cat.id)}
                 options={[
+                  {
+                    text: '编辑',
+                    style: {
+                      backgroundColor: '#6190E8'
+                    }
+                  },
                   {
                     text: '删除',
                     style: {
@@ -126,32 +153,32 @@ export default class CatList extends Taro.Component {
         </AtList>
         <View className="add-list">
           <AtList>
-            <AtListItem key="blank"/>
+            <AtListItem key="blank" />
             <AtListItem
               key="add-cat"
               title="添加新目录"
               thumb={add}
-              onClick={this.showAddCatModal.bind(this)}
+              onClick={this.showCatModalToAdd.bind(this)}
             />
           </AtList>
         </View>
 
         {/* MODAL */}
         <AtModal isOpened={this.state.isModalOpened}>
-          <AtModalHeader>新增目录</AtModalHeader>
+          <AtModalHeader>{this.state.modalTitle}</AtModalHeader>
           <AtModalContent>
             <AtInput
               name="value"
               title="目录名称："
               type="text"
-              placeholder="请输入新的目录名"
-              value={this.state.newCatName}
+              placeholder="请输入目录名称"
+              value={this.state.editCatName}
               onChange={this.handleCatNameChange.bind(this)}
             />
           </AtModalContent>
           <AtModalAction>
             <Button onClick={this.closeAddModal.bind(this)}>取消</Button>
-            <Button onClick={this.toAddCategory.bind(this)}>确定</Button>
+            <Button onClick={this.toSaveCategory.bind(this)}>确定</Button>
           </AtModalAction>
         </AtModal>
       </View>

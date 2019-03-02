@@ -1,6 +1,6 @@
 import './todos.scss';
 import Taro from '@tarojs/taro';
-import { View, Text, Button } from '@tarojs/components';
+import { View, Text, Button, Swiper, SwiperItem } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import {
   addTodo,
@@ -12,6 +12,7 @@ import {
 import TodosTop from './todos-top';
 import TodosList from './todos-list';
 import { deleteCategory, modifyCategory } from '../../actions/category';
+
 @connect(
   ({ category, todos }) => ({ category, todos }),
   {
@@ -36,32 +37,17 @@ export default class Todos extends Taro.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    Taro.setStorage({
-      key: 'categoryState',
-      date: this.props.category
-    });
+  componentDidMount() {
+    console.log('todos--settState');
+    Taro.setStorageSync('categoryState',this.props.category);
 
-    Taro.setStorage({
-      key: 'todosState',
-      date: this.props.todos
-    });
-
+    Taro.setStorageSync('todosState', this.props.todos);
   }
 
   componentWillMount() {
     let catId = this.$router.params['catId'];
     if (!catId) {
-      catId = Taro.getStorage({
-        key: 'lastOpenCate',
-        success: function(res) {
-          catId = res.data;
-        },
-        fail: function(err){
-          console.log(err)
-        }
-      });
-      console.log(catId);
+      catId = Taro.getStorageSync('lastOpenCate');
     }
     if (catId) {
       this.setState({
@@ -116,9 +102,6 @@ export default class Todos extends Taro.Component {
           modifyTodo={modifyTodo}
           changeTodoStatus={changeTodoStatus}
         />
-        <Button className="check-category" onClick={this.goToCategory}>
-          查看目录
-        </Button>
       </View>
     );
   }

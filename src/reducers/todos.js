@@ -5,6 +5,7 @@ import {
   CHANGE_TODO_STATUS,
   DELETE_TODOS
 } from '../constants/todos';
+import Taro from '@tarojs/taro';
 
 // const initState = [
 //   { id: 1, name: 'todo1', catId: 1, status: false },
@@ -17,9 +18,13 @@ import {
 //   { id: 8, name: 'todo8', catId: 3, status: true },
 //   { id: 9, name: 'todo9', catId: 3, status: true }
 // ];
-const initState = [];
+const initState = [
+  { id: 200, name: '点我更改完成状态', catId: 200, status: true },
+  { id: 201, name: '左滑可以编辑删除', catId: 200, status: false },
+  { id: 202, name: '试试点击‘添加Todo’', catId: 200, status: false }
+];
 let id = 1;
-export default function todos(state = initState, action) {
+export default function todos(state = Taro.getStorageSync('todosState') || initState, action) {
   switch (action.type) {
     case ADD_TODO:
       const todo = {
