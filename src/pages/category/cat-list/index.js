@@ -59,6 +59,7 @@ export default class CatList extends Taro.Component {
       this.props.deleteCategory(id);
       this.props.deleteTodos(id);
     }
+    Taro.setStorageSync('cateToast',false);
   };
 
   toSaveCategory = () => {

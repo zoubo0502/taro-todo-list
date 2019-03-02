@@ -62,6 +62,9 @@ export default class TodosList extends Taro.Component {
         this.props.addTodo(this.state.todoName, this.props.catId);
       } else {
         this.props.modifyTodo(this.state.editId, this.state.todoName);
+        Taro.redirectTo({
+          url: `/pages/todos/todos?catId=${this.props.catId}`
+        });
       }
     }
 
