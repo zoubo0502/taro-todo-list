@@ -107,6 +107,7 @@ export default class TodosTop extends Taro.Component {
               title="目录名称："
               type="text"
               value={this.state.categoryName}
+              focus={this.state.isEditCatModelOpened}
               onChange={this.handleCatNameChange.bind(this)}
             />
           </AtModalContent>

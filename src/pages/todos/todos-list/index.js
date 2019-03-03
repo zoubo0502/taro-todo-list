@@ -183,6 +183,7 @@ export default class TodosList extends Taro.Component {
               type="text"
               placeholder="请输入Todo名称"
               value={this.state.todoName}
+              focus={this.state.idEditTodoModalOpened}
               onChange={this.handleTodoNameChange.bind(this)}
             />
           </AtModalContent>

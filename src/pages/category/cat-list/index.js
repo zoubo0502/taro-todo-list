@@ -174,6 +174,7 @@ export default class CatList extends Taro.Component {
               type="text"
               placeholder="请输入目录名称"
               value={this.state.editCatName}
+              focus={this.state.isModalOpened}
               onChange={this.handleCatNameChange.bind(this)}
             />
           </AtModalContent>
